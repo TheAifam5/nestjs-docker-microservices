@@ -1,0 +1,30 @@
+{
+  "name": "microservice1",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "ts-node src/main.ts",
+    "prestart:prod": "tsc",
+    "start:prod": "node dist/main.js"
+  },
+  "dependencies": {
+    "@nestjs/common": "^5.1.0",
+    "@nestjs/core": "^5.1.0",
+    "@nestjs/microservices": "^5.1.0",
+    "@nestjs/testing": "^5.1.0",
+    "@nestjs/websockets": "^5.1.0",
+    "amqplib": "^0.5.2",
+    "class-transformer": "^0.1.9",
+    "class-validator": "^0.9.1",
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "^6.2.2",
+    "typescript": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.5.8",
+    "@types/node": "^10.5.6",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.11.0"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "microservices",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "gulp": "gulp"
+  },
+  "devDependencies": {
+    "@types/node": "^10.5.6",
+    "@types/gulp": "^3.8.3",
+    "typescript": "^3.0.1",
+    "ts-node": "^7.0.0",
+    "gulp": "^3.9.1"
+  }
+}
