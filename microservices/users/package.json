@@ -1,5 +1,5 @@
 {
-  "name": "microservice1",
+  "name": "users",
   "version": "0.0.1",
   "license": "MIT",
   "private": true,
