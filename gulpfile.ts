@@ -17,17 +17,22 @@ function getTaskName(value: string): string {
   return `${TASK_PREFIX ? TASK_PREFIX + '-' : ''}${value}`
 }
 
-function start(done: GulpTaskDoneFn, args?: ReadonlyArray<string>, options?: SpawnOptions) {
+function start(args?: ReadonlyArray<string>, options?: SpawnOptions, done: GulpTaskDoneFn = () => { }) {
   let hasExited: boolean = false;
 
-  const child = spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', [...args, '--silent'], { stdio: [0, 1, 2], ...options });
+  const child = spawn(/^win/.test(process.platform) ? 'yarn.cmd' : 'yarn', [...args, '--silent'], { stdio: [0, 1, 2], ...options });
   child.on('error', (err: Error) => { if (hasExited) return; hasExited = true; done(err); });
   child.on('exit', (code: number, signal: string) => { if (hasExited) return; hasExited = true; done((code !== 0 ? new Error(`Exit code: ${code}`) : undefined)); });
   return child;
 }
 
 MICROSERVICES.forEach((obj) => gulp.add(getTaskName(obj.name), (done: GulpTaskDoneFn) => {
-  start(done, ['start'], { cwd: obj.path });
+  start(['start'], { cwd: obj.path }, done);
 }));
 
 gulp.task('default', MICROSERVICES.map((obj) => getTaskName(obj.name)));
+
+gulp.task('postinstall', (done: GulpTaskDoneFn) => {
+  MICROSERVICES.map((obj) => start(['install'], { cwd: obj.path }));
+  done();
+});

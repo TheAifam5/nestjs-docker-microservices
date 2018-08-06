@@ -5,6 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "postinstall": "gulp postinstall",
     "gulp": "gulp"
   },
   "devDependencies": {
