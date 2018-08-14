@@ -6,15 +6,19 @@ import { spawn, SpawnOptions } from 'child_process';
 type GulpTaskDoneFn = (error?: any) => void;
 
 const BASE_DIR = './microservices';
-const TASK_PREFIX = 'task';
+const TASK_PREFIX = 'microservice';
+
 const MICROSERVICES = fs.readdirSync(BASE_DIR).filter((value) => {
-  const dirPath = path.join(BASE_DIR, value);
+  const dirPath = path.resolve(path.join(BASE_DIR, value));
   const nodePkgPath = path.join(dirPath, 'package.json');
-  return fs.statSync(dirPath).isDirectory() && fs.existsSync(nodePkgPath) && fs.statSync(nodePkgPath).isFile();
+  return fs.statSync(dirPath).isDirectory()
+    && fs.existsSync(nodePkgPath)
+    && fs.statSync(nodePkgPath).isFile()
+    && require(nodePkgPath)!.scripts!.start !== undefined;
 }).map((value) => ({ name: value, path: path.resolve(path.join(BASE_DIR, value)) }));
 
 function getTaskName(value: string): string {
-  return `${TASK_PREFIX ? TASK_PREFIX + '-' : ''}${value}`
+  return `${TASK_PREFIX ? TASK_PREFIX + '-' : ''}${value}`;
 }
 
 function start(args?: ReadonlyArray<string>, options?: SpawnOptions, done: GulpTaskDoneFn = () => { }) {
@@ -32,7 +36,7 @@ MICROSERVICES.forEach((obj) => gulp.add(getTaskName(obj.name), (done: GulpTaskDo
 
 gulp.task('default', MICROSERVICES.map((obj) => getTaskName(obj.name)));
 
-gulp.task('postinstall', (done: GulpTaskDoneFn) => {
+gulp.task('postinstall', () => {
+  start(['install'], { cwd: path.resolve('./shared') });
   MICROSERVICES.map((obj) => start(['install'], { cwd: obj.path }));
-  done();
 });

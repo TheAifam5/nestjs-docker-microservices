@@ -10,26 +10,14 @@
     "experimentalDecorators": true,
     "target": "es6",
     "sourceMap": true,
-    "rootDirs": [
-      "./src",
-      "../../shared"
-    ],
-    "outDir": "./dist",
-    "baseUrl": ".",
-    "paths": {
-      "@shared/*": [
-        "../../shared/src/*"
-      ],
-      "*": [
-        "src/*",
-        "node_modules/*"
-      ]
-    }
+    "rootDir": "./src",
+    "outDir": "./lib"
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.spec.ts"
   ]
 }

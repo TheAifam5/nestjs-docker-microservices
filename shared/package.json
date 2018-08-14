@@ -1,0 +1,22 @@
+{
+  "name": "microservices-shared",
+  "description": "description",
+  "authors": "author",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "tslint -p tsconfig.json"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.12",
+    "sequelize": "^4.38.0",
+    "sequelize-typescript": "^0.6.6"
+  },
+  "devDependencies": {
+    "@types/node": "^10.7.0",
+    "@types/webpack-env": "^1.13.6",
+    "typescript": "^3.0.1",
+    "ts-node": "^7.0.1",
+    "tslint": "5.11.0"
+  }
+}
