@@ -13,12 +13,16 @@
     "@nestjs/core": "^5.1.0",
     "@nestjs/microservices": "^5.1.0",
     "reflect-metadata": "^0.1.12",
-    "rxjs": "^6.2.2"
+    "rxjs": "^6.2.2",
+    "mysql2": "^1.6.1",
+    "sequelize": "^4.38.0",
+    "sequelize-typescript": "^0.6.6"
   },
   "devDependencies": {
     "@types/node": "^10.7.0",
     "@types/webpack-node-externals": "^1.6.3",
     "@types/webpack-env": "^1.13.6",
+    "@types/sequelize": "^4.27.24",
     "typescript": "^3.0.1",
     "ts-loader": "^4.4.2",
     "ts-node": "^7.0.1",

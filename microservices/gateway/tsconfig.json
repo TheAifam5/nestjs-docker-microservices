@@ -19,10 +19,6 @@
     "paths": {
       "@shared/*": [
         "../../shared/src/*"
-      ],
-      "*": [
-        "src/*",
-        "node_modules/*"
       ]
     }
   },
