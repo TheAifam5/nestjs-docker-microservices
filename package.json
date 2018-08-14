@@ -6,6 +6,7 @@
   "scripts": {
     "postinstall": "gulp postinstall",
     "start": "gulp",
+    "build": "gulp build",
     "lint": "gulp lint"
   },
   "devDependencies": {

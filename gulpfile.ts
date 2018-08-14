@@ -71,3 +71,8 @@ gulp.task('lint', (done: GulpTaskDoneFn) => {
 
   done();
 });
+
+gulp.task('build', (done: GulpTaskDoneFn) => {
+  MICROSERVICES.map((obj) => start(['build'], { cwd: obj.path }, done));
+  done();
+});
