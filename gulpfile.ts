@@ -21,22 +21,53 @@ function getTaskName(value: string): string {
   return `${TASK_PREFIX ? TASK_PREFIX + '-' : ''}${value}`;
 }
 
-function start(args?: ReadonlyArray<string>, options?: SpawnOptions, done: GulpTaskDoneFn = () => { }) {
+function start(args?: ReadonlyArray<string>, options?: SpawnOptions, done?: GulpTaskDoneFn) {
   let hasExited: boolean = false;
 
-  const child = spawn(/^win/.test(process.platform) ? 'yarn.cmd' : 'yarn', [...args, '--silent'], { stdio: [0, 1, 2], ...options });
-  child.on('error', (err: Error) => { if (hasExited) return; hasExited = true; done(err); });
-  child.on('exit', (code: number, signal: string) => { if (hasExited) return; hasExited = true; done((code !== 0 ? new Error(`Exit code: ${code}`) : undefined)); });
+  const child = spawn(
+    /^win/.test(process.platform) ? 'yarn.cmd' : 'yarn',
+    args,
+    { stdio: [0, 1, 2], ...options },
+  );
+  child.on('error', (err: Error) => {
+    if (hasExited)
+      return;
+
+    hasExited = true;
+
+    if (done)
+      done(err);
+  });
+  child.on('exit', (code: number) => {
+    if (hasExited)
+      return;
+
+    hasExited = true;
+
+    if (done && code !== 0)
+      done(new Error(`Exit code: ${code}`));
+  });
   return child;
 }
 
+function install(done: GulpTaskDoneFn) {
+  start(['install'], { cwd: path.resolve('./shared') }, done);
+  MICROSERVICES.map((obj) => start(['install', '--silent'], { cwd: obj.path }, done));
+
+  done();
+}
+
 MICROSERVICES.forEach((obj) => gulp.add(getTaskName(obj.name), (done: GulpTaskDoneFn) => {
-  start(['start'], { cwd: obj.path }, done);
+  start(['start', '--bail', '--display', 'errors-only'], { cwd: obj.path }, done);
 }));
 
 gulp.task('default', MICROSERVICES.map((obj) => getTaskName(obj.name)));
 
-gulp.task('postinstall', () => {
-  start(['install'], { cwd: path.resolve('./shared') });
-  MICROSERVICES.map((obj) => start(['install'], { cwd: obj.path }));
+gulp.task('postinstall', install);
+
+gulp.task('lint', (done: GulpTaskDoneFn) => {
+  start(['lint'], { cwd: path.resolve('./shared') });
+  MICROSERVICES.map((obj) => start(['lint'], { cwd: obj.path }, done));
+
+  done();
 });

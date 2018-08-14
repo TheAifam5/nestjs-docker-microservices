@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "postinstall": "gulp postinstall",
-    "start": "gulp"
+    "start": "gulp",
+    "lint": "gulp lint"
   },
   "devDependencies": {
     "@types/node": "^10.7.0",
