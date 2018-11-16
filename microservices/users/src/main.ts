@@ -4,6 +4,6 @@ import { OPTIONS } from './main.options';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice(ApplicationModule, OPTIONS);
-  app.listen(() => console.log('Database Microservice is listening'));
+  app.listen(() => console.log('Users Microservice is listening'));
 }
 bootstrap();
